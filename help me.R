@@ -81,5 +81,20 @@ count_indiations <- function(indication, faers_dataset) {
   }
     
   return (new_DF)
-  }
+}
+#calculate adr rate
+#cutoff rate for low frequency? for smaller datasets 10 may be too high
+adr_rate=function(faers_dataset){
+  table=as.data.frame(table(faers_dataset$pt))
+  table=table%>%filter(Freq>10)
+  table$Var1=as.character(table$Var1)
 
+  total = length(unique(faers_dataset$primaryid))
+  print(total)
+  new_DF=data.frame(ADRs=table$Var1, rate=table$Freq/total)
+
+
+  return (new_DF)
+}
+zoloft_adr_rate=adr_rate(zoloft)
+not_zoloft_adr_rate=adr_rate(not_zoloft)
